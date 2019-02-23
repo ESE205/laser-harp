@@ -54,14 +54,14 @@ light_channel = 0
 temp_channel  = 1
  
 # Define delay between readings
-delay = 1
+delay = .25
  
 while True:
  
   # Read the light sensor data
   light_level = ReadChannel(light_channel)
   light_volts = ConvertVolts(light_level,2)
-  if light_level >300:
+  if (light_level >300) or (light_level <100):
     GPIO.output(8, GPIO.HIGH)
   else:
     GPIO.output(8, GPIO.LOW)
