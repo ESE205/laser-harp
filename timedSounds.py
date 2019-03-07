@@ -29,3 +29,18 @@ try:
     while True:
         for x in times:
             if(state[x] == "sound 1"):
+                firstSound.play()
+            elif(state[x] == "sound 2"):
+                secondSound.play():
+            else:
+                print("no sound")
+except KeyboardInterrupt:
+    print("keyboard interrupt, gpio cleanup")
+    A = [[times], [states]]
+    print(A[0])
+    print(A[1])
+
+    # print(times)
+    # print(states)
+    GPIO.output(laser1, GPIO.LOW)
+    GPIO.cleanup()
