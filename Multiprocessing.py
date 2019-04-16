@@ -6,6 +6,7 @@ import wave
 import RPi.GPIO as GPIO
 from multiprocessing import Process
 from pydub import AudioSegment
+from threading import Thread
 
 pygame.init()
 pygame.mixer.init()
@@ -80,7 +81,6 @@ startTime = time.clock()
 
 #global comp = pygame.mixer.music.load('/home/pi/laserharp-sounds/off.wav')
 
-
 def playLaser1(timer1 = []):
 	if(lightlevell > 800):
             s = pygame.mixer.music.load('/home/pi/laserharp-sounds/1.wav')
@@ -111,6 +111,7 @@ def playLaser4(timer4 = []):
 	if(lightlevel4 > 800):
             s = pygame.mixer.music.load('/home/pi/laserharp-sounds/4.wav')
             pygame.mixer.music.play(-1)
+            print("4")
         #time = time.clock()-startTime
         #timer4.append(time)
 
@@ -118,6 +119,7 @@ def playLaser5(timer5 = []):
 	if(lightlevel5 > 800):
             s = pygame.mixer.music.load('/home/pi/laserharp-sounds/5.wav')
             pygame.mixer.music.play(-1)
+            print("5")
         #time = time.clock()-startTime
         #timer5.append(time)
 
@@ -125,33 +127,49 @@ def playLaser6(timer6 = []):
 	if(lightlevel6 > 800):
             s = pygame.mixer.music.load('/home/pi/laserharp-sounds/6.wav')
             pygame.mixer.music.play(-1)
+            print("6")
 	#time = time.clock()-startTime
         #timer6.append(time)
 
 #def concat(timer1,timer2,timer3,timer4,timer5,timer6, ):
+try:
+    while True:
+        lightlevell = ReadChannel(light_channel)
+        lightlevel2 = ReadChannel(light_channel2)
+        lightlevel3 = ReadChannel(light_channel3)
+        lightlevel4 = ReadChannel(light_channel4)
+        lightlevel5 = ReadChannel(light_channel5)
+        lightlevel6 = ReadChannel(light_channel6)
+        threads = []
+        if __name__=='__main__':
+            #print(lightlevell)
+        	threads.append(Thread(target = playLaser1))
+        	threads.append(Thread(target = playLaser2))
+        	threads.append(Thread(target = playLaser3))
+        	threads.append(Thread(target = playLaser4))
+        	threads.append(Thread(target = playLaser5))
+        	threads.append(Thread(target = playLaser6))
 
-while True:
-    lightlevell = ReadChannel(light_channel)
-    lightlevel2 = ReadChannel(light_channel2)
-    lightlevel3 = ReadChannel(light_channel3)
-    lightlevel4 = ReadChannel(light_channel4)
-    lightlevel5 = ReadChannel(light_channel5)
-    lightlevel6 = ReadChannel(light_channel6)
-    processes = []
-    if __name__=='__main__':
-        #print(lightlevell)
-    	processes.append(Process(target = playLaser1))
-    	processes.append(Process(target = playLaser2))
-    	processes.append(Process(target = playLaser3))
-    	processes.append(Process(target = playLaser4))
-    	processes.append(Process(target = playLaser5))
-    	processes.append(Process(target = playLaser6))
+        for thread in threads:
+        	thread.start()
 
-    for process in processes:
-    	process.start()
+        for thread in threads:
+        	thread.join()
+	
+except KeyboardInterrupt:
+    print("keyboard interrupt")
+    combined_sounds.export("/home/pi/laserharp-sounds/samples/combined_sounds1.wav", format="wav")
+    #turn off lasers
+    GPIO.output(laser1, GPIO.LOW)
+    GPIO.output(laser2, GPIO.LOW)
+    GPIO.output(laser3, GPIO.LOW)
+    GPIO.output(laser4, GPIO.LOW)
+    GPIO.output(laser5, GPIO.LOW)
+    GPIO.output(laser6, GPIO.LOW)
 
-    for process in processes:
-    	process.join()
+    GPIO.cleanup()
+
+
 # processes = []
 # if __name__=='__main__':
 # 	processes.append(Process(target = playLaser1))
