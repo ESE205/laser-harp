@@ -1,12 +1,19 @@
 
-import pygame
+##import pygame
+##
+##s1= pygame.mixer.music.load('/home/pi/laserharp-sounds/1.wav')
+##s2= pygame.mixer.music.load('/home/pi/laserharp-sounds/2.wav')
+##s3= pygame.mixer.music.load('/home/pi/laserharp-sounds/3.wav')
+##s4= pygame.mixer.music.load('/home/pi/laserharp-sounds/4.wav')
+##s5= pygame.mixer.music.load('/home/pi/laserharp-sounds/5.wav')
+##s6= pygame.mixer.music.load('/home/pi/laserharp-sounds/6.wav')
 
-s1= pygame.mixer.music.load('/home/pi/laserharp-sounds/1.wav')
-s2= pygame.mixer.music.load('/home/pi/laserharp-sounds/2.wav')
-s3= pygame.mixer.music.load('/home/pi/laserharp-sounds/3.wav')
-s4= pygame.mixer.music.load('/home/pi/laserharp-sounds/4.wav')
-s5= pygame.mixer.music.load('/home/pi/laserharp-sounds/5.wav')
-s6= pygame.mixer.music.load('/home/pi/laserharp-sounds/6.wav')
+s1 = wave.open('/home/pi/laserharp-sounds/1.wav')
+s2 = wave.open('/home/pi/laserharp-sounds/2.wav')
+s3 = wave.open('/home/pi/laserharp-sounds/3.wav')
+s4 = wave.open('/home/pi/laserharp-sounds/4.wav')
+s5 = wave.open('/home/pi/laserharp-sounds/5.wav')
+s6 = wave.open('/home/pi/laserharp-sounds/6.wav')
 
 s = [s1, s2, s3, s4, s5, s6]
 match2 = [ [],[] ]
