@@ -4,37 +4,47 @@ import time
 from bottle import route, run, request, template, static_file
 import os
 from os import walk
+from gpiozero import Button
 
-recordButton = 37  # number?
-offButton = 00 # number?
+# recordButton = 7  # number?
+# offButton = 11  # number?
 
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(recordButton, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-GPIO.setup(offButton, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+# GPIO.setwarnings(False)
+# GPIO.setmode(GPIO.BOARD)
+# GPIO.setup(recordButton, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+# GPIO.setup(offButton, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+recordButton = Button(4)
+offButton = Button(17)
 
 state = 0
 
 while True:
+    # recordState = GPIO.input(recordButton)
+    # offState = GPIO.input(offButton)
+    if(offButton.is_pressed):
+        print("off button")
+        p1 = subprocess.Popen("sudo halt", stdout=subprocess.PIPE, shell = True)
     if(state == 0):
-        if(GPIO.input(recordButton) == GPIO.HIGH):
+        if(recordButton.is_pressed):
             # start recording
             # subprocess.run("parecord", "--channels=1", "-d", "STREAM_NAME", "recording.wav")  # insert pulse audio command
+            print("start recording")
             p = subprocess.Popen("parecord --channels=1 -d alsa_output.platform-soc_audio.analog-stereo.monitor recording.wav", stdout=subprocess.PIPE, shell=True)
             state = 1
             time.sleep(.5)
 
     if(state == 1):
-        if(GPIO.input(recordButton) == GPIO.HIGH):
+        if(recordButton.is_pressed):
             # stop recording
             # terminate process
+            print("stop recording")
             p.terminate()
 
-            @route('/upload/<filename>', method='POST')
+            @route('/upload/<recording>', method='POST')
             def upload(recording):
                 print(request.POST)
-                file = request.files[filename]
-                name, ext = os.path.splitext(filename)
+                file = request.files[recording]
+                name, ext = os.path.splitext(recording)
                 if ext not in('.wav'):
                     return "File extension not allowed."
 
@@ -60,6 +70,3 @@ while True:
             # upload recording.wav
             state = 0
             time.sleep(.5)
-
-    if(GPIO.input(offButton) == GPIO.HIGH):
-        p1 = subprocess.Popen("sudo halt", stdout=subprocess.P)
