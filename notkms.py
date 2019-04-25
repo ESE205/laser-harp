@@ -109,41 +109,34 @@ try:
         light_level6 = ReadChannel(light_channel6)
 
         if(light_level > 800):  # state 1
-            state = 1
+            # state = 1
             pygame.mixer.Channel(0).play(pygame.mixer.Sound('/home/pi/laserharp-sounds/1.wav'))
-            state1Time = time.clock()-startTime
-            lastState = 1
+            # state1Time = time.clock()-startTime
+            # lastState = 1
         if (light_level2 > 800):  # state 2
             # play sound 2
-            state = 2
-            print("state 2")
+            # state = 2
+            # print("state 2")
             pygame.mixer.Channel(1).play(pygame.mixer.Sound('/home/pi/laserharp-sounds/2.wav'))
-            state2Time = time.clock()-startTime
-            lastState = 2
+            # state2Time = time.clock()-startTime
+            # lastState = 2
         if (light_level3 > 800):
-            state = 3
+            # state = 3
             pygame.mixer.Channel(2).play(pygame.mixer.Sound('/home/pi/laserharp-sounds/3.wav'))
-            state3Time = time.clock()-startTime
-            lastState = 3
+            # state3Time = time.clock()-startTime
+            # lastState = 3
         if(light_level4 > 800):
-            state = 4
+            # state = 4
             pygame.mixer.Channel(3).play(pygame.mixer.Sound('/home/pi/laserharp-sounds/4.wav'))
-            state4Time = time.clock()-startTime
-            lastState = 4
+            # state4Time = time.clock()-startTime
+            # lastState = 4
         if(light_level5 > 800):
-            state = 5
             pygame.mixer.Channel(4).play(pygame.mixer.Sound('/home/pi/laserharp-sounds/5.wav'))
-            state5Time = time.clock()-startTime
-            lastState = 5
         if(light_level6 > 800):
-            state = 6
             pygame.mixer.Channel(5).play(pygame.mixer.Sound('/home/pi/laserharp-sounds/6.wav'))
-            state6Time = time.clock()-startTime
-            lastState = 6
 
         if((light_level < 800) and (light_level2 < 800) and (light_level3 <800) and (light_level4 < 800) and (light_level5 < 800) and (light_level6 < 800)):  # state 0
-            state = 0
-            print("off")
+            # print("off")
             pygame.mixer.Channel(0).stop()#(pygame.mixer.Sound('/home/pi/laserharp-sounds/1.wav'))
             pygame.mixer.Channel(1).stop()#(pygame.mixer.Sound('/home/pi/laserharp-sounds/2.wav'))
             pygame.mixer.Channel(2).stop()#(pygame.mixer.Sound('/home/pi/laserharp-sounds/3.wav'))
@@ -152,32 +145,32 @@ try:
             pygame.mixer.Channel(5).stop() #(pygame.mixer.Sound('/home/pi/laserharp-sounds/6.wav'))
 
 
-            if(state1Time != 0):
-                print(state1Time)
-                state1Time = 0
-            elif(state2Time != 0):
-                print(state2Time)
-                state2Time = 0
-            elif(state3Time != 0):
-                print(state3Time)
-                state3Time = 0
-            elif(state4Time != 0):
-                print(state4Time)
-                state4Time = 0
-            elif(state5Time != 0):
-                print(state5Time)
-                state5Time = 0
-            elif(state6Time != 0):
-                print(state6Time)
-                state6Time = 0
-            else:
-                startTime = time.clock()
-                time.sleep(.05)
-            lastState = 0
+            # if(state1Time != 0):
+            #     # print(state1Time)
+            #     # state1Time = 0
+            # elif(state2Time != 0):
+            #     # print(state2Time)
+            #     # state2Time = 0
+            # elif(state3Time != 0):
+            #     print(state3Time)
+            #     state3Time = 0
+            # elif(state4Time != 0):
+            #     print(state4Time)
+            #     state4Time = 0
+            # elif(state5Time != 0):
+            #     print(state5Time)
+            #     state5Time = 0
+            # elif(state6Time != 0):
+            #     print(state6Time)
+            #     state6Time = 0
+            # else:
+            #     startTime = time.clock()
+            #     time.sleep(.05)
+            # lastState = 0
             #no sound
 except KeyboardInterrupt:
     print("keyboard interrupt")
-    combined_sounds.export("/home/pi/laserharp-sounds/samples/combined_sounds1.wav", format="wav")
+    # combined_sounds.export("/home/pi/laserharp-sounds/samples/combined_sounds1.wav", format="wav")
     #turn off lasers
     GPIO.output(laser1, GPIO.LOW)
     GPIO.output(laser2, GPIO.LOW)
